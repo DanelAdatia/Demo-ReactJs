@@ -9,7 +9,7 @@ const ReactEndPoint = "https://bizonapi.sufalam.live/api";
 
 export const GetListingAndPagination = async () => {
   return await axios.get(
-    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[skip]=0&filter[limit]=5`,
+    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[skip]=0`,
     {
       headers,
     }
@@ -18,28 +18,28 @@ export const GetListingAndPagination = async () => {
 
 export const PriceHighToLow = async () =>
   await axios.get(
-    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[order][0]=price%20DESC&filter[skip]=0&filter[limit]=20`,
+    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[order][0]=price%20DESC&filter[skip]=0`,
     {
       headers,
     }
   );
 export const PriceLowToHigh = async () =>
   await axios.get(
-    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[order][0]=price%20ASC&filter[skip]=0&filter[limit]=20`,
+    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[order][0]=price%20ASC&filter[skip]=0`,
     {
       headers,
     }
   );
 export const BestSelling = async () =>
   await axios.get(
-    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[order][0]=sellcounter%20DESC&filter[skip]=0&filter[limit]=20`,
+    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[order][0]=sellcounter%20DESC&filter[skip]=0`,
     {
       headers,
     }
   );
 export const UsingName = async () =>
   await axios.get(
-    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[where][name][like]=%M%&filter[skip]=0&filter[limit]=20`,
+    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[where][name][like]=%M%&filter[skip]=0`,
     {
       headers,
     }
@@ -47,7 +47,7 @@ export const UsingName = async () =>
 
 export const UsingPrice = async () =>
   await axios.get(
-    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[where][minPrice]=10&filter[where][maxPrice]=100000&filter[skip]=0&filter[limit]=20`,
+    `${ReactEndPoint}/products?filter[include]=productbrand&filter[include]=productmedia&filter[include]=category&filter[where][productstatus]=1&filter[where][minPrice]=10&filter[where][maxPrice]=100000&filter[skip]=0`,
     {
       headers,
     }

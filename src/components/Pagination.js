@@ -1,7 +1,13 @@
 import React from "react";
-import { Pagination as Pagginationn } from "@mui/material";
+import { TablePagination as Pagginationn } from "@mui/material";
 
-export const Pagination = ({ volatile, page, handleChange }) => {
+export const Pagination = ({
+  volatile,
+  page,
+  handleChange,
+  rowsPerPage,
+  handleChangeRowsPerPage,
+}) => {
   const style = {
     display: "flex",
     alignItems: "center",
@@ -9,18 +15,17 @@ export const Pagination = ({ volatile, page, handleChange }) => {
     flexWrap: "wrap",
     "& > *": { my: 1 },
   };
-  console.log(volatile, page, handleChange, "volatile, page, handleChange");
 
   return (
     <div sx={style}>
       <Pagginationn
-        count={
-          volatile !== undefined ? Math.ceil(volatile?.length / 10 || 0) : 0
-        }
+        count={volatile !== undefined ? Math.ceil(volatile?.length) : 0}
         page={page}
-        onChange={handleChange}
+        onPageChange={handleChange}
         showFirstButton
         showLastButton
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </div>
   );

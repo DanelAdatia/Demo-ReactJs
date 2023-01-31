@@ -21,6 +21,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -32,7 +33,9 @@ const Database = () => {
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [type, setType] = useState(1);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [search, setSearch] = useState("");
 
   const handleChange = (event) => {
     setType(event.target.value);
@@ -48,7 +51,6 @@ const Database = () => {
   const listingData = async () => {
     try {
       const res = await GetListingAndPagination();
-      console.log(res.data, "res");
       setData(res.data);
     } catch (err) {
       console.log(err);
@@ -57,7 +59,6 @@ const Database = () => {
   const highToLow = async () => {
     try {
       const res = await PriceHighToLow();
-      console.log(res.data, "res");
       setData(res.data);
     } catch (err) {
       console.log(err);
@@ -67,7 +68,7 @@ const Database = () => {
   const lowToHigh = async () => {
     try {
       const res = await PriceLowToHigh();
-      console.log(res.data, "res");
+
       setData(res.data);
     } catch (err) {
       console.log(err);
@@ -76,7 +77,7 @@ const Database = () => {
   const bestSelling = async () => {
     try {
       const res = await BestSelling();
-      console.log(res.data, "res");
+
       setData(res.data);
     } catch (err) {
       console.log(err);
@@ -85,7 +86,7 @@ const Database = () => {
   const usingName = async () => {
     try {
       const res = await UsingName();
-      console.log(res.data, "res");
+
       setData(res.data);
     } catch (err) {
       console.log(err);
@@ -94,7 +95,7 @@ const Database = () => {
   const usingPrice = async () => {
     try {
       const res = await UsingPrice();
-      console.log(res.data, "res");
+
       setData(res.data);
     } catch (err) {
       console.log(err);
@@ -103,6 +104,10 @@ const Database = () => {
 
   const handleChangePage = (event, value) => {
     setPage(value);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   useEffect(() => {
@@ -121,17 +126,49 @@ const Database = () => {
     }
   }, [type]);
 
+  const filteredData = data?.filter((item) => {
+    const _item$price = String(item.price);
+
+    return (
+      _item$price.toLowerCase().includes(search.toLowerCase()) ||
+      item?.name?.toLowerCase().includes(search.toLowerCase())
+    );
+  });
+
+  const items =
+    filteredData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) ||
+    [];
+
   return (
     <PageFormat>
       <Box sx={styles.boxContainer}>
         <Typography variant="h5">Database</Typography>
       </Box>
       <Divider />
-      <Box style={{ float: "right" }}>
-        <IconButton title="Filter" aria-describedby={id} onClick={handleClick}>
-          <FilterListIcon />
-        </IconButton>
-
+      <Box>
+        <Box
+          style={{
+            float: "left",
+          }}
+        >
+          <TextField
+            size="small"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+            label="Search"
+          />
+        </Box>
+        <Box style={{ float: "right" }}>
+          <IconButton
+            title="Filter"
+            aria-describedby={id}
+            onClick={handleClick}
+          >
+            <FilterListIcon />
+          </IconButton>
+        </Box>
         <Popper id={id} open={open} anchorEl={anchorEl}>
           <Box
             sx={{
@@ -178,7 +215,7 @@ const Database = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((d, index) => (
+            {items?.map((d, index) => (
               <TableRow key={index}>
                 <TableCell>{d.name}</TableCell>
                 <TableCell>{d.price}</TableCell>
@@ -192,6 +229,8 @@ const Database = () => {
           page={page}
           handleChange={handleChangePage}
           volatile={data}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+          rowsPerPage={rowsPerPage}
         />
       </TableContainer>
     </PageFormat>
